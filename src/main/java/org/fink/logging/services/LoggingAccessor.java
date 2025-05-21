@@ -1,4 +1,4 @@
-package services;
+package org.fink.logging.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

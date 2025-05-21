@@ -5,8 +5,8 @@ import org.fink.logging.aspects.LogAspect;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import services.ILoggingAccessor;
-import services.LoggingAccessor;
+import org.fink.logging.services.ILoggingAccessor;
+import org.fink.logging.services.LoggingAccessor;
 
 @RequiredArgsConstructor
 @Configuration

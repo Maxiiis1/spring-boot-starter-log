@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 import org.springframework.stereotype.Component;
-import services.ILoggingAccessor;
+import org.fink.logging.services.ILoggingAccessor;
 import java.util.Arrays;
 
 @Aspect
