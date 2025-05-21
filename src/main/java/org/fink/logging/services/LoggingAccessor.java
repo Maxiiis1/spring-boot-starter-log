@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.fink.logging.config.LoggingProperties;
 import org.slf4j.event.Level;
-import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class LoggingAccessor implements ILoggingAccessor {
 
@@ -27,10 +25,5 @@ public class LoggingAccessor implements ILoggingAccessor {
             log.warn("Invalid log level: '{}'. Defaulting to INFO.", logLevel);
             return Level.INFO;
         }
-    }
-
-    @Override
-    public boolean checkLoggingState() {
-        return loggingProperties.isEnabled();
     }
 }

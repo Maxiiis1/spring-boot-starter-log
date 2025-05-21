@@ -7,12 +7,10 @@ import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
-import org.springframework.stereotype.Component;
 import org.fink.logging.services.ILoggingAccessor;
 import java.util.Arrays;
 
 @Aspect
-@Component
 @RequiredArgsConstructor
 public class LogAspect {
     private final Logger log = LoggerFactory.getLogger(LogAspect.class);
@@ -20,54 +18,44 @@ public class LogAspect {
 
     @Before("@annotation(org.fink.logging.aspects.annotations.Loggable)")
     public void logExecution(JoinPoint joinPoint) {
-        if (loggingAccessor.checkLoggingState()) {
-            Level level = loggingAccessor.getConvertedLevel();
+        Level level = loggingAccessor.getConvertedLevel();
 
-            log.atLevel(level).log("The method was called: {}", joinPoint.getSignature().getName());
-            Object[] args = joinPoint.getArgs();
-            if (args != null && args.length > 0) {
-                log.atLevel(level).log("Parameters: {}", Arrays.toString(joinPoint.getArgs()));
-            }
+        log.atLevel(level).log("The method was called: {}", joinPoint.getSignature().getName());
+        Object[] args = joinPoint.getArgs();
+        if (args != null && args.length > 0) {
+            log.atLevel(level).log("Parameters: {}", Arrays.toString(joinPoint.getArgs()));
         }
     }
 
     @AfterThrowing(pointcut = "@annotation(org.fink.logging.aspects.annotations.ExceptionHandling)", throwing = "exception")
     public void logException(JoinPoint joinPoint, Exception exception) {
-        if (loggingAccessor.checkLoggingState()) {
-            Level level = loggingAccessor.getConvertedLevel();
+        Level level = loggingAccessor.getConvertedLevel();
 
-            log.atLevel(level).log("An exception {} occurred in method {} ",
-                exception.getClass(), joinPoint.getSignature().getName());
-            log.atLevel(level).log("An exception message: {}", exception.getMessage());
-        }
+        log.atLevel(level).log("An exception {} occurred in method {} ",
+            exception.getClass(), joinPoint.getSignature().getName());
+        log.atLevel(level).log("An exception message: {}", exception.getMessage());
     }
 
     @Around("@annotation(org.fink.logging.aspects.annotations.LogTracking)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        if (loggingAccessor.checkLoggingState()) {
-            Level level = loggingAccessor.getConvertedLevel();
+        Level level = loggingAccessor.getConvertedLevel();
 
-            long executionStart = System.currentTimeMillis();
+        long executionStart = System.currentTimeMillis();
 
-            Object proceeded = joinPoint.proceed();
+        Object proceeded = joinPoint.proceed();
 
-            long executionEnd = System.currentTimeMillis();
-            log.atLevel(level).log("Execution time: {} milliseconds", executionEnd - executionStart);
+        long executionEnd = System.currentTimeMillis();
+        log.atLevel(level).log("Execution time: {} milliseconds", executionEnd - executionStart);
 
-            return proceeded;
-        }
-
-        return joinPoint.proceed();
+        return proceeded;
     }
 
     @AfterReturning(pointcut = "@annotation(org.fink.logging.aspects.annotations.LogAfterSuccess)", returning = "result")
     public void logAfterSuccess(JoinPoint joinPoint, Object result) {
-        if (loggingAccessor.checkLoggingState()) {
-            Level level = loggingAccessor.getConvertedLevel();
+        Level level = loggingAccessor.getConvertedLevel();
 
-            log.atLevel(level).log("Method {} returned successfully with result: {}",
-                    joinPoint.getSignature().getName(), result);
-        }
+        log.atLevel(level).log("Method {} returned successfully with result: {}",
+                joinPoint.getSignature().getName(), result);
     }
 
 }

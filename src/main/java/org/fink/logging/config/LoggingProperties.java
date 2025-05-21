@@ -8,6 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @ConfigurationProperties(prefix = "app.logging")
 public class LoggingProperties {
-    private boolean enabled = true;
     private String level = "INFO";
 }
